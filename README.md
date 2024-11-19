@@ -1,4 +1,7 @@
 # Mamba-Hand-Detr
+## Mamba vision backbone
+- [paper](https://arxiv.org/pdf/2407.08083)  
+- [repository](https://github.com/NVlabs/MambaVision)
 ## Config setting
 - output_dir: '/direction/of/output'
 - cur_dir: '/direction/of/this/project'
