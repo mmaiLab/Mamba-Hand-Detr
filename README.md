@@ -3,6 +3,7 @@
 - [paper](https://arxiv.org/pdf/2407.08083)  
 - [repository](https://github.com/NVlabs/MambaVision)
 ## Config setting
+- dataset: choose the dataset.py file from the "dataset" folder(interhand, RHD and STB is available) and put it into the main direction. 
 - output_dir: '/direction/of/output'
 - cur_dir: '/direction/of/this/project'
 - backbone_type: 'swin_transformer'/'resnet'/'mamba_vision'
