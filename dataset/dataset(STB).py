@@ -112,7 +112,7 @@ class Dataset(torch.utils.data.Dataset):
         root_valid = np.zeros((1),dtype=np.float32)
         # transform to output heatmap space
         joint_coord, joint_valid, rel_root_depth, root_valid = transform_input_to_output_space(joint_coord, joint_valid, rel_root_depth, root_valid, self.root_joint_idx, self.joint_type)
-        mask = np.zeros((img.shape[1], img.shape[2])).astype(np.bool)
+        mask = np.zeros((img.shape[1], img.shape[2])).astype(np.bool_)
         mask = self.transform(mask.astype(np.uint8))
         inputs = {'img': img, 'mask': mask}
         targets = {'joint_coord': joint_coord, 'rel_root_depth': rel_root_depth, 'hand_type': hand_type}
