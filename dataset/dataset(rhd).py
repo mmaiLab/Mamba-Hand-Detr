@@ -116,7 +116,7 @@ class Dataset(torch.utils.data.Dataset):
         img, joint_coord, joint_valid, hand_type, inv_trans = augmentation(img, bbox, joint_coord, joint_valid, hand_type, self.mode, self.joint_type)
         img = self.transform(img.astype(np.float32))/255.
          # use zero mask.
-        mask = np.zeros((img.shape[1], img.shape[2])).astype(np.bool)
+        mask = np.zeros((img.shape[1], img.shape[2])).astype(np.bool_)
         mask = self.transform(mask.astype(np.uint8))
         rel_root_depth = np.zeros((1),dtype=np.float32)
         root_valid = np.zeros((1),dtype=np.float32)
