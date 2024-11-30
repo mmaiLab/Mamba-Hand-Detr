@@ -9,7 +9,7 @@
 - backbone_type: 'swin_transformer'/'resnet'/'mamba_vision'
 - backbone_size: for swin_transformer: B/L,  
 for mamba_vision: T/T2/S/B/L/L2
-- depthlayer: the number of depth layer of anchor points,defalt is 3
+- depthlayer: the number of depth layer of anchor points,default is 3
 - lr_dec_epoch: [50, 90, 95] for small backbones,  
 [60, 90, 95] for large backbones
 ## Run
