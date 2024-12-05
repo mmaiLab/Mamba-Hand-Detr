@@ -1,9 +1,10 @@
 # Mamba-Hand-Detr
 ## Environment configration
-Follow the instruction at A2J-Transformer's repo: [a2j](https://github.com/ChanglongJiangGit/A2J-Transformer/tree/main) 
-Notice that the recommanded version of python and torch are 3.10 and 2.2.2 (not 3.7 and 1.7.1 as the a2j repo says)
-Follow the instruction at Mamba's repo: [mamba-ssm](https://github.com/state-spaces/mamba)
-There are still some packages that are needed, so when you run train.py, install them when you see the "moudule not fuound" error.
+- Follow the instruction at A2J-Transformer's repo: [a2j](https://github.com/ChanglongJiangGit/A2J-Transformer/tree/main).
+Notice that the recommanded version of python and torch are 3.10 and 2.2.2 (not 3.7 and 1.7.1 as the a2j repo says).
+
+- Follow the instruction at Mamba's repo: [mamba-ssm](https://github.com/state-spaces/mamba).
+- There are still some packages that are needed, so when you run train.py, install them when you see the "module not found" error.
 ## Mamba vision backbone
 - [paper](https://arxiv.org/pdf/2407.08083)  
 - [repository](https://github.com/NVlabs/MambaVision)
