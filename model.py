@@ -160,10 +160,10 @@ class A2J_model(nn.Module):
 
         for l, feat in enumerate(features):
             src, mask = feat.decompose()
-            print(f"src's shape is {src.shape}#############3")
+            #print(f"src's shape is {src.shape}#############3")
             #print(f"mask's shape is {src.shape}")
             src = self.input_proj[l](src)
-            print(f"src's shape is {src.shape}&&&&&&&&&&&&&&")
+            #print(f"src's shape is {src.shape}&&&&&&&&&&&&&&")
             srcs.append(src)
             masks.append(mask)
             assert mask is not None
