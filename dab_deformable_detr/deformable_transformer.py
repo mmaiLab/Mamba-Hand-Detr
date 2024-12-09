@@ -262,7 +262,6 @@ class DeformableTransformerEncoderLayer(nn.Module):
 
         # ffn
         src = self.forward_ffn(src)
-
         return src
 
 

@@ -27,6 +27,7 @@ from utils.miscdetr import NestedTensor, is_main_process
 from .position_encoding import build_position_encoding
 from .swin_transformer import SwinTransformer
 from .mamba_vision import MambaVision
+from .spatial_mamba import Backbone_SpatialMamba
 
 class FrozenBatchNorm2d(torch.nn.Module):
     """
@@ -218,6 +219,51 @@ class MambaVisionBackbone(nn.Module):
                 out[name] = NestedTensor(x, mask)
         return out
 
+class SpatialMambaBackbone(nn.Module):
+    """Spatial Mamba backbone."""
+    def __init__(self, cfg, train_backbone: bool, return_interm_layers: bool):
+        super().__init__()
+        # Build the SpatialMamba model
+        self.spatial_mamba = Backbone_SpatialMamba(
+            img_size=cfg.input_size,
+            patch_size=cfg.patch_size,
+            in_chans=cfg.in_chans,
+            dims=cfg.dims,
+            depths=cfg.depths,
+            num_classes=cfg.num_classes,
+            mlp_ratio=cfg.mlp_ratio,
+            drop_rate=cfg.drop_rate,
+            attn_drop_rate=cfg.attn_drop_rate,
+            drop_path_rate=cfg.drop_path_rate,
+            use_checkpoint=cfg.use_checkpoint,
+        )
+        # Freeze parameters if needed
+        for name, parameter in self.spatial_mamba.named_parameters():
+            if not train_backbone:
+                parameter.requires_grad_(False)
+        # Set return layers
+        if return_interm_layers:
+            self.return_layers = ["0", "1", "2", "3"]
+        else:
+            self.return_layers = ["3"]
+        # Get output channels and strides
+        self.num_channels = [cfg.dims*2, cfg.dims*4, cfg.dims*8, cfg.dims*8]
+        self.strides = [4, 8, 16, 32]  # Assuming the same as in SwinBackbone
+
+    def forward(self, tensor_list: NestedTensor):
+        x = tensor_list.tensors  # x's shape is [B, C, H, W]
+        xs = self.spatial_mamba(x)  # xs is a list of feature maps
+        out: Dict[str, NestedTensor] = {}
+        m = tensor_list.mask
+        assert m is not None
+
+        for idx, x in enumerate(xs):
+            name = str(idx)
+            if name in self.return_layers:
+                mask = F.interpolate(m[None].float(), size=x.shape[-2:]).to(torch.bool)[0]
+                out[name] = NestedTensor(x, mask)
+        return out
+
 
 class Joiner(nn.Sequential):
     def __init__(self, backbone, position_embedding):
@@ -251,6 +297,8 @@ def build_backbone(cfg):
         backbone = SwinBackbone(cfg, train_backbone, return_interm_layers)
     elif backbone_type == 'mamba_vision':
         backbone = MambaVisionBackbone(cfg, train_backbone, return_interm_layers)
+    elif backbone_type == 'spatial_mamba':
+        backbone = SpatialMambaBackbone(cfg, train_backbone, return_interm_layers)
     else:
         raise ValueError(f"Unsupported backbone type: {backbone_type}")
 
