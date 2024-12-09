@@ -28,7 +28,7 @@ class Config:
     interhand_anno_dir = '/gs/fs/tga-i/share/data/image_datasets/InterHand2.6M/annotations'
     interhand_images_path = '/gs/fs/tga-i/share/data/image_datasets/InterHand2.6M/images'
     ## current file dir. change this path to your A2J-Transformer folder dir.
-    cur_dir = '/gs/fs/tga-i/zhou.y.ak/workspace/test'
+    cur_dir = '/gs/fs/tga-i/zhou.y.ak/workspace/A2J-Transformer_DDP_test2'
     
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~input, output~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
@@ -54,8 +54,8 @@ class Config:
     elif dataset == 'hands2017':
         keypoint_num = 21
 
-    backbone_type = 'mamba_vision'#'swin_transformer'/'resnet'/'mamba_vision'
-    backbone_size = 'S'# for swin_transformer: B/L, for mamba_vision: T/T2/S/B/L/L2
+    backbone_type = 'spatial_mamba'#'swin_transformer'/'resnet'/'mamba_vision'/'spatial_mamba'
+    backbone_size = 'B'# for swin_transformer: B/L, for mamba_vision: T/T2/S/B/L/L2, for spatial_mamba: T/S/B
     if backbone_type == 'swin_transformer':    
         if backbone_size == 'B':
             embed_dim = 128
@@ -133,10 +133,32 @@ class Config:
         attn_drop_rate = 0.0
         layer_scale = None
         layer_scale_conv = None
+    elif backbone_type == 'spatial_mamba':
+        if backbone_size == 'T':
+            depths=[2, 4, 8, 4]
+            dims=64
+            drop_path_rate=0.2
+        elif backbone_size == 'S':
+            depths=[2, 4, 21, 5]
+            dims=64
+            drop_path_rate=0.3
+        elif backbone_size == 'B':
+            depths=[2, 4, 21, 5]
+            dims=96
+            drop_path_rate=0.5
+        input_size = 256
+        patch_size = 4
+        in_chans = 3
+        num_classes = 0
+        mlp_ratio=4.0
+        drop_rate=0. 
+        attn_drop_rate=0. 
+        use_checkpoint=False
+
     print(f"backbone's type is {backbone_type}")
     print(f"backbone's size is {backbone_size}")
     # ~~~~~~~~~~~~~~~~~~~~~~~~transformer config~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
-    depthlayer = 6
+    depthlayer = 3
     print(f"the number of depth layer is {depthlayer}")
     position_embedding = 'sine' #'sine' #'convLearned' # learned
     hidden_dim = 256
@@ -167,7 +189,7 @@ class Config:
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~training config~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
     lr_dec_epoch = [50, 90, 95]
-    end_epoch = 100
+    end_epoch = 1
     lr = 1e-4
     lr_dec_factor = 5  
     train_batch_size = 12
@@ -192,7 +214,7 @@ class Config:
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~directory setup~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
     data_dir = osp.join(cur_dir, 'data')
-    output_dir = '/gs/bs/tga-i/zhou.y.ak/A2J-Transformer_backbone3_output'
+    output_dir = '/gs/bs/tga-i/zhou.y.ak/A2J-Transformer_DDP_test2_output'
     #output_dir = osp.join(cur_dir, 'output')
     datalistDir = osp.join(cur_dir, 'datalist') ## this is used to save the dataset datalist, easy to debug.
     vis_2d_dir = osp.join(output_dir, 'vis_2d')
