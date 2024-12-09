@@ -12,9 +12,10 @@ Notice that the recommanded version of python and torch are 3.10 and 2.2.2 (not 
 - dataset: choose the dataset.py file from the "dataset" folder(interhand, RHD and STB is available) and put it into the main direction. 
 - output_dir: '/direction/of/output'
 - cur_dir: '/direction/of/this/project'
-- backbone_type: 'swin_transformer'/'resnet'/'mamba_vision'
+- backbone_type: 'swin_transformer'/'resnet'/'mamba_vision'/'spatial_mamba'
 - backbone_size: for swin_transformer: B/L,  
-for mamba_vision: T/T2/S/B/L/L2
+for mamba_vision: T/T2/S/B/L/L2，
+for spatial_mamba: T/S/B
 - depthlayer: the number of depth layer of anchor points,default is 3
 - lr_dec_epoch: [50, 90, 95] for small backbones,  
 [60, 90, 95] for large backbones
