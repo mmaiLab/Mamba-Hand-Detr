@@ -54,8 +54,8 @@ class Config:
     elif dataset == 'hands2017':
         keypoint_num = 21
 
-    backbone_type = 'spatial_mamba'#'swin_transformer'/'resnet'/'mamba_vision'/'spatial_mamba'
-    backbone_size = 'B'# for swin_transformer: B/L, for mamba_vision: T/T2/S/B/L/L2, for spatial_mamba: T/S/B
+    backbone_type = 'mamba_vision'#'swin_transformer'/'resnet'/'mamba_vision'/'spatial_mamba'
+    backbone_size = 'S'# for swin_transformer: B/L, for mamba_vision: T/T2/S/B/L/L2, for spatial_mamba: T/S/B
     if backbone_type == 'swin_transformer':    
         if backbone_size == 'B':
             embed_dim = 128
