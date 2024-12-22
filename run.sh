@@ -27,4 +27,13 @@ python test.py --test_epoch 83 --gpu 0
 python test.py --test_epoch 82 --gpu 0
 python test.py --test_epoch 81 --gpu 0
 python test.py --test_epoch 80 --gpu 0
-
+python test.py --test_epoch 79 --gpu 0
+python test.py --test_epoch 78 --gpu 0
+python test.py --test_epoch 77 --gpu 0
+python test.py --test_epoch 76 --gpu 0
+python test.py --test_epoch 75 --gpu 0
+python test.py --test_epoch 74 --gpu 0
+python test.py --test_epoch 73 --gpu 0
+python test.py --test_epoch 72 --gpu 0
+python test.py --test_epoch 71 --gpu 0
+python test.py --test_epoch 70 --gpu 0
