@@ -51,8 +51,8 @@ def main():
     if cfg.use_wandb:
         wandb.init(
                         project = "A2J",
-                        id = "depth1layer_mamba_backboneS_509095_RHP_full1",
-                        resume = True
+                        id = "_6090_RHP_full1",
+                        resume = False
                     )
     trainer = Trainer()
     trainer._make_batch_generator()
