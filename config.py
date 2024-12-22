@@ -188,8 +188,8 @@ class Config:
 
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~training config~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
-    lr_dec_epoch = [50, 90, 95]
-    end_epoch = 1
+    lr_dec_epoch = [60, 90]
+    end_epoch = 100
     lr = 1e-4
     lr_dec_factor = 5  
     train_batch_size = 12
