@@ -28,7 +28,7 @@ class Config:
     interhand_anno_dir = '/gs/fs/tga-i/share/data/image_datasets/InterHand2.6M/annotations'
     interhand_images_path = '/gs/fs/tga-i/share/data/image_datasets/InterHand2.6M/images'
     ## current file dir. change this path to your A2J-Transformer folder dir.
-    cur_dir = '/gs/fs/tga-i/zhou.y.ak/workspace/A2J-Transformer_DDP_test2'
+    cur_dir = '/gs/fs/tga-j/zhou.y.ak/mambaout'
     
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~input, output~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
@@ -54,8 +54,8 @@ class Config:
     elif dataset == 'hands2017':
         keypoint_num = 21
 
-    backbone_type = 'mamba_vision'#'swin_transformer'/'resnet'/'mamba_vision'/'spatial_mamba'
-    backbone_size = 'S'# for swin_transformer: B/L, for mamba_vision: T/T2/S/B/L/L2, for spatial_mamba: T/S/B
+    backbone_type = 'mambaout'#'swin_transformer'/'resnet'/'mamba_vision'/'spatial_mamba'/'mambaout'
+    backbone_size = 'T'# for swin_transformer: B/L, for mamba_vision: T/T2/S/B/L/L2, for spatial_mamba: T/S/B, for mambaout: F/K/T/S/B
     if backbone_type == 'swin_transformer':    
         if backbone_size == 'B':
             embed_dim = 128
@@ -146,6 +146,8 @@ class Config:
             depths=[2, 4, 21, 5]
             dims=96
             drop_path_rate=0.5
+        else:
+            raise RuntimeError(F"backbone_size should be T/S/B, not {backbone_size}.")
         input_size = 256
         patch_size = 4
         in_chans = 3
@@ -154,6 +156,27 @@ class Config:
         drop_rate=0. 
         attn_drop_rate=0. 
         use_checkpoint=False
+    elif backbone_type == 'mambaout':
+        if backbone_size =='F':
+            depths = [3, 3, 9, 3]
+            dim = 48
+        elif backbone_size == 'K':
+            depths = [3, 3, 15, 3]
+            dim = 48
+        elif backbone_size == 'T':
+            depths = [3, 3, 9, 3]
+            dim = 96
+        elif backbone_size == 'S':
+            depths = [3, 4, 27, 3]
+            dim = 96
+        elif backbone_size == 'B':
+            depths = [3, 4, 27, 3]
+            dim = 128
+        else:
+            raise RuntimeError(F"backbone_size should be F/K/T/S/B, not {backbone_size}.")
+        conv_ratio = 1.0
+        in_chans = 3
+        num_classes = 0
 
     print(f"backbone's type is {backbone_type}")
     print(f"backbone's size is {backbone_size}")
@@ -214,7 +237,7 @@ class Config:
 
     # ~~~~~~~~~~~~~~~~~~~~~~~~directory setup~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~#
     data_dir = osp.join(cur_dir, 'data')
-    output_dir = '/gs/bs/tga-i/zhou.y.ak/A2J-Transformer_DDP_test2_output'
+    output_dir = '/gs/bs/tga-i/zhou.y.ak/mamba_out_output'
     #output_dir = osp.join(cur_dir, 'output')
     datalistDir = osp.join(cur_dir, 'datalist') ## this is used to save the dataset datalist, easy to debug.
     vis_2d_dir = osp.join(output_dir, 'vis_2d')
