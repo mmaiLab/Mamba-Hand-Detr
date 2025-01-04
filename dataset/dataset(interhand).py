@@ -60,7 +60,7 @@ class Dataset(torch.utils.data.Dataset):
             #for part dataset
             if self.mode == 'train':
                 part = {} # part of dataset
-                for i in range(10000): # number of images to use for training/1361062
+                for i in range(1361062): # number of images to use for training/1361062
                     if i in db.anns:
                         part[i] = db.anns[i]
             if self.mode == 'test':
