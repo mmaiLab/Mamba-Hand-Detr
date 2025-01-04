@@ -28,6 +28,7 @@ from .position_encoding import build_position_encoding
 from .swin_transformer import SwinTransformer
 from .mamba_vision import MambaVision
 from .spatial_mamba import Backbone_SpatialMamba
+from .mambaout import MambaOut
 
 class FrozenBatchNorm2d(torch.nn.Module):
     """
@@ -264,6 +265,42 @@ class SpatialMambaBackbone(nn.Module):
                 out[name] = NestedTensor(x, mask)
         return out
 
+class MambaOutBackbone(nn.Module):
+    def __init__(self, cfg, train_backbone: bool, return_interm_layers: bool):
+        super().__init__()
+        self.mambaout = MambaOut(
+            in_chans=cfg.in_chans,
+            depths=cfg.depths,
+            dim=cfg.dim,
+            conv_ratio=cfg.conv_ratio,
+        )
+        if not train_backbone:
+            for name, param in self.mamba.named_parameters():
+                param.requires_grad_(False)
+
+        if return_interm_layers:
+            self.return_layers = ["0", "1", "2", "3"]
+        else:
+            self.return_layers = ["3"]
+
+        self.num_channels = [cfg.dim*2, cfg.dim*4, cfg.dim*8, cfg.dim*8]
+        self.strides = [4, 8, 16, 32]
+
+    def forward(self, tensor_list: NestedTensor):
+        x = tensor_list.tensors  # [B, C, H, W]
+        m = tensor_list.mask     # [B, H, W]
+        xs = self.mambaout(x)
+
+        out = {}
+        assert m is not None, "Mask is required in tensor_list"
+        for name, feat in xs.items():
+            mask = F.interpolate(m.unsqueeze(1).float(), size=feat.shape[2:4])  # [B,1,H',W']
+            mask = (mask > 0.5)
+            mask = mask.squeeze(1)   # => [B,H',W']
+            out[name] = NestedTensor(feat, mask)
+
+        return out
+
 
 class Joiner(nn.Sequential):
     def __init__(self, backbone, position_embedding):
@@ -299,6 +336,8 @@ def build_backbone(cfg):
         backbone = MambaVisionBackbone(cfg, train_backbone, return_interm_layers)
     elif backbone_type == 'spatial_mamba':
         backbone = SpatialMambaBackbone(cfg, train_backbone, return_interm_layers)
+    elif backbone_type == 'mambaout':
+        backbone = MambaOutBackbone(cfg, train_backbone, return_interm_layers)
     else:
         raise ValueError(f"Unsupported backbone type: {backbone_type}")
 
