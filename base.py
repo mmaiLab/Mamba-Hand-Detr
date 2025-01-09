@@ -159,7 +159,7 @@ class Tester(Base):
         self.logger.info("Creating graph...")
         model = get_model('test', self.joint_num)
         model = DataParallel(model).cuda()
-        ckpt = torch.load(model_path)
+        ckpt = torch.load(model_path, map_location='cuda:0')
         model.load_state_dict(ckpt['network'])
         model.eval()
 
