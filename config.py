@@ -56,7 +56,15 @@ class Config:
 
     backbone_type = 'mambaout'#'swin_transformer'/'resnet'/'mamba_vision'/'spatial_mamba'/'mambaout'
     backbone_size = 'T'# for swin_transformer: B/L, for mamba_vision: T/T2/S/B/L/L2, for spatial_mamba: T/S/B, for mambaout: F/K/T/S/B
-    if backbone_type == 'swin_transformer':    
+    if backbone_type == 'swin_transformer':  
+        if backbone_size == 'T':
+            embed_dim = 96
+            depths = [2, 2, 6, 2]
+            num_heads = [4, 8, 16, 32]
+        if backbone_size == 'S':
+            embed_dim = 96
+            depths = [2, 2, 18, 2]
+            num_heads = [4, 8, 16, 32]
         if backbone_size == 'B':
             embed_dim = 128
             depths = [2, 2, 18, 2]
