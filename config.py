@@ -56,7 +56,7 @@ class Config:
 
     backbone_type = 'mambaout'#'swin_transformer'/'resnet'/'mamba_vision'/'spatial_mamba'/'mambaout'
     backbone_size = 'T'# for swin_transformer: B/L, for mamba_vision: T/T2/S/B/L/L2, for spatial_mamba: T/S/B, for mambaout: F/K/T/S/B
-    if backbone_type == 'swin_transformer':  
+    if backbone_type == 'swin_transformer':    
         if backbone_size == 'T':
             embed_dim = 96
             depths = [2, 2, 6, 2]
@@ -74,7 +74,7 @@ class Config:
             depths = [2, 2, 18, 2]
             num_heads = [6, 12, 24, 48]
         else:
-            raise RuntimeError(F"backbone_size should be B/L, not {backbone_size}.")
+            raise RuntimeError(F"backbone_size should be T/S/B/L, not {backbone_size}.")
         input_size = 256
         patch_size = 4
         window_size = 8
@@ -83,7 +83,7 @@ class Config:
         qk_scale = None
         drop_rate=0.
         attn_drop_rate=0.
-        drop_path_rate=0.1
+        drop_path_rate=0.2
         ape=False
         patch_norm=True
         use_checkpoint=False
