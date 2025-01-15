@@ -55,7 +55,7 @@ class Config:
         keypoint_num = 21
 
     backbone_type = 'mambaout'#'swin_transformer'/'resnet'/'mamba_vision'/'spatial_mamba'/'mambaout'
-    backbone_size = 'T'# for swin_transformer: B/L, for mamba_vision: T/T2/S/B/L/L2, for spatial_mamba: T/S/B, for mambaout: F/K/T/S/B
+    backbone_size = 'T'# for swin_transformer: T/S/B/L, for mamba_vision: T/T2/S/B/L/L2, for spatial_mamba: T/S/B, for mambaout: F/K/T/S/B
     if backbone_type == 'swin_transformer':    
         if backbone_size == 'T':
             embed_dim = 96
