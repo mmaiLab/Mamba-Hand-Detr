@@ -61,11 +61,11 @@ class Config:
             embed_dim = 96
             depths = [2, 2, 6, 2]
             num_heads = [4, 8, 16, 32]
-        if backbone_size == 'S':
+        elif backbone_size == 'S':
             embed_dim = 96
             depths = [2, 2, 18, 2]
             num_heads = [4, 8, 16, 32]
-        if backbone_size == 'B':
+        elif backbone_size == 'B':
             embed_dim = 128
             depths = [2, 2, 18, 2]
             num_heads = [4, 8, 16, 32]
