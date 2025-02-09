@@ -56,18 +56,6 @@ class Dataset(torch.utils.data.Dataset):
                 cameras = json.load(f)
             with open(osp.join(self.annot_path, self.mode, 'InterHand2.6M_' + self.mode + '_joint_3d.json')) as f:
                 joints = json.load(f)
-            
-            #for part dataset
-            if self.mode == 'train':
-                part = {} # part of dataset
-                for i in range(1361062): # number of images to use for training/1361062
-                    if i in db.anns:
-                        part[i] = db.anns[i]
-            if self.mode == 'test':
-                part = {} # part of dataset
-                for i in range(380125): # number of images to use for training
-                    if i in db.anns:
-                        part[i] = db.anns[i]
 
             # rootnet is not used
             if (self.mode == 'val' or self.mode == 'test') and cfg.trans_test == 'rootnet':
@@ -81,8 +69,8 @@ class Dataset(torch.utils.data.Dataset):
                 print("Get bbox and root depth from groundtruth annotation")
 
             # get images and annotations
-            for aid in tqdm(list(part.keys())[::1]):#for aid in tqdm(list(part.keys())[::1]):/for aid in tqdm(list(db.anns.keys())[::1]):
-                ann = part[aid]#ann = part[aid]/ann = db.anns[aid]
+            for aid in tqdm(list(db.anns.keys())[::1]):
+                ann = db.anns[aid]
                 image_id = ann['image_id']
                 img = db.loadImgs(image_id)[0]
                 hand_type = ann['hand_type']
@@ -441,4 +429,3 @@ class Dataset(torch.utils.data.Dataset):
             return mpjpe_dict, handness_accuracy, mrrpe_num
         else:
             return mpjpe_dict, None, None
-        
