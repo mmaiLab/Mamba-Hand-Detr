@@ -6,19 +6,19 @@ Notice that the recommanded version of python and torch are 3.10 and 2.2.2 (not 
 - Follow the instruction at Mamba's repo: [mamba-ssm](https://github.com/state-spaces/mamba).
 - There are still some packages that are needed, so when you run train.py, install them when you see the "module not found" error.
 ## Repo of backbones
-swin transformer:
+# swin transformer:
 - [paper](https://arxiv.org/pdf/2103.14030)  
 - [repository](https://github.com/microsoft/Swin-Transformer)
-mamba vision:
+# mamba vision:
 - [paper](https://arxiv.org/pdf/2407.08083)  
 - [repository](https://github.com/NVlabs/MambaVision)
-spatial mamba:
+# spatial mamba:
 - [paper](https://arxiv.org/pdf/2410.15091)  
 - [repository](https://github.com/EdwardChasel/Spatial-Mamba)
-mambaout:
+# mambaout:
 - [paper](https://arxiv.org/pdf/2405.07992)  
 - [repository](https://github.com/yuweihao/MambaOut)
-vmamba:
+# vmamba:
 - [paper](https://arxiv.org/pdf/2401.10166)  
 - [repository](https://github.com/MzeroMiko/VMamba)
 
