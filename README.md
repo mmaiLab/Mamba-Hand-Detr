@@ -5,20 +5,36 @@ Notice that the recommanded version of python and torch are 3.10 and 2.2.2 (not 
 
 - Follow the instruction at Mamba's repo: [mamba-ssm](https://github.com/state-spaces/mamba).
 - There are still some packages that are needed, so when you run train.py, install them when you see the "module not found" error.
-## Mamba vision backbone
+## Repo of backbones
+swin transformer:
+- [paper](https://arxiv.org/pdf/2103.14030)  
+- [repository](https://github.com/microsoft/Swin-Transformer)
+mamba vision:
 - [paper](https://arxiv.org/pdf/2407.08083)  
 - [repository](https://github.com/NVlabs/MambaVision)
+spatial mamba:
+- [paper](https://arxiv.org/pdf/2410.15091)  
+- [repository](https://github.com/EdwardChasel/Spatial-Mamba)
+mambaout:
+- [paper](https://arxiv.org/pdf/2405.07992)  
+- [repository](https://github.com/yuweihao/MambaOut)
+vmamba:
+- [paper](https://arxiv.org/pdf/2401.10166)  
+- [repository](https://github.com/MzeroMiko/VMamba)
+
+
 ## Config setting
 - dataset: choose the dataset.py file from the "dataset" folder(interhand, RHD and STB is available) and put it into the main direction. 
 - output_dir: '/direction/of/output'
 - cur_dir: '/direction/of/this/project'
-- backbone_type: 'swin_transformer'/'resnet'/'mamba_vision'/'spatial_mamba'
-- backbone_size: for swin_transformer: B/L,  
-for mamba_vision: T/T2/S/B/L/L2，
-for spatial_mamba: T/S/B
+- backbone_type: 'swin_transformer'/'resnet'/'mamba_vision'/'spatial_mamba'/'mambaout'/'vmamba'
+- backbone_size: for swin_transformer: T/S/B/L,  
+for mamba_vision: T/T2/S/B/L/L2,
+for spatial_mamba: T/S/B,
+for mamba out: F/K/T/S/B,
+for vmamba: only defalt (no need to set)
 - depthlayer: the number of depth layer of anchor points,default is 3
-- lr_dec_epoch: [50, 90, 95] for small backbones,  
-[60, 90, 95] for large backbones
+- lr_dec_epoch: [60, 90] for RHP, [28, 38] for interhand
 ## Wandb setting
 Set in train.py
 ## Run
